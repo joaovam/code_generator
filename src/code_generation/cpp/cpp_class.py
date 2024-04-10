@@ -122,12 +122,12 @@ class CppClass(CppLanguageElement):
             """
             return 'constexpr ' if self.is_constexpr else ''
 
-        def _render_virtual(self):
+        def _render_virtual(self, is_impl=False):
             """
             Before function name, could be in declaration or definition
             Virtual functions can't be static or constexpr
             """
-            return 'virtual ' if self.is_virtual else ''
+            return 'virtual ' if self.is_virtual and not is_impl else ''
 
         def _render_inline(self):
             """
@@ -298,7 +298,7 @@ class CppClass(CppLanguageElement):
 
             if self.documentation and not self.is_constexpr:
                 cpp(dedent(self.documentation))
-            with cpp.block(f'{self._render_virtual()}{self._render_constexpr()}{self._render_inline()}'
+            with cpp.block(f'{self._render_virtual(is_impl=True)}{self._render_constexpr()}{self._render_inline()}'
                            f'{self._render_ret_type()} {self.fully_qualified_name()}({self.args()})'
                            f'{self._render_const()}'
                            f'{self._render_override()}'
