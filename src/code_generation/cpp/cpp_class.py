@@ -341,7 +341,8 @@ class CppClass(CppLanguageElement):
         """
         @return: string representation of the inheritance
         """
-        return f' : public {self._parent_class()}' if self.parent_class else ''
+        parent_class = self._parent_class()
+        return f' : public {parent_class}' if parent_class != "" else ""
 
     ########################################
     # ADD CLASS MEMBERS
